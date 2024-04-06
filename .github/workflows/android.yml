@@ -27,21 +27,15 @@ jobs:
     - name: Build and Assemble Release APK
       run: ./gradlew assembleRelease
 
-    - name: Create outputs directory
-      run: mkdir -p outputs
-
-    - name: Copy APK to outputs directory
-      if: success()
-      run: cp app/build/outputs/apk/release/app-release.apk outputs/
-
-    - name: Display APK location
+    - name: Find APK file
       if: success()
       run: |
-        find . -name "app-release.apk" -type f
+        apk_path=$(find . -name "app-release.apk" -type f)
+        echo "APK file found at: $apk_path"
 
     - name: Upload APK as artifact
       if: success()
       uses: actions/upload-artifact@v4
       with:
         name: app-release-apk
-        path: outputs/app-release.apk
+        path: ${{ steps.find.outputs.apk-path }}

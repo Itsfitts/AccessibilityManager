@@ -32,6 +32,7 @@ jobs:
       run: |
         apk_path=$(find . -name "app-release.apk" -type f)
         echo "APK file found at: $apk_path"
+        echo "The APK path is: ${{ steps.find_apk.outputs.apk-path }}"
 
     - name: Upload APK as artifact
       if: success()

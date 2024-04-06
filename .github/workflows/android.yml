@@ -27,9 +27,17 @@ jobs:
     - name: Build and Assemble Release APK
       run: ./gradlew assembleRelease
 
-    - name: Save APK to a temporary directory
+    - name: Create outputs directory
+      run: mkdir -p outputs
+
+    - name: Copy APK to outputs directory
       if: success()
-      run: mkdir -p outputs && cp app/build/outputs/apk/release/app-release.apk outputs/
+      run: cp app/build/outputs/apk/release/app-release.apk outputs/
+
+    - name: Display APK location
+      if: success()
+      run: |
+        find . -name "app-release.apk" -type f
 
     - name: Upload APK as artifact
       if: success()
